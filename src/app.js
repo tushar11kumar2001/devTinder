@@ -5,7 +5,9 @@ const app = express();
 //when you put ? after any letter it mean that letter is optional 
 //when you put + after any letter it mean that letter comes many times
 //when you put * it means anything can comes in between that pattern 
-app.get("/ab*cd",(req,res)=>{
+app.get("/user",(req,res)=>{
+    console.log(req.query);
+    
     res.send("successfull....")
 })
 
