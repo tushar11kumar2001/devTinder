@@ -7,14 +7,15 @@ app.use(
   (req, res, next) => {
     console.log("1st route handle...");
     next();
-    res.send("1st route handle");
-  },
-  (req, res) => {
-    console.log("2st route handle...");
-    res.send("2st route handle");
   }
 );
-
+app.use(
+    "/user",
+    (req, res, next) => {
+      console.log("2nd route handle...");
+      res.send("2nd route handle...")
+    }
+  );
 app.listen(1100, () => {
   console.log("Server is successfully listening on port 1100");
 });
