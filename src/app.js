@@ -2,15 +2,14 @@ const express = require('express');
 
 const app = express();
 
-app.use("/",(req,res)=>{
-    console.log("home request");
-
-    res.send("Welcome to Dashboard..");
+app.use("/hello/friend",(req,res)=>{
+    res.send("can we friend");
 })
-app.use("/hello",(req,res)=>{
-    console.log("hello request");
-    
+app.use("/hello",(req,res)=>{    
     res.send("Hello hello hello...");
+})
+app.use("/",(req,res)=>{
+    res.send("Welcome to Dashboard..")
 })
 
 app.listen(1100,()=>{
