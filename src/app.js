@@ -2,23 +2,11 @@ const express = require('express');
 
 const app = express();
 
-app.get("/user",(req,res)=>{
-    res.send({
-        first_name:"Tushar",
-        last_name:"Kumar"
-    })
-})
-app.post("/user",(req,res)=>{
-    console.log("USER data add...");
-    res.send("user added successfully..")
-})
-app.delete("/user",(req,res)=>{
-    res.send("user delete successfully...")
-})
-
-//this will match all http api method requests
-app.use("/",(req,res)=>{
-    res.send("Welcome to Dashboard..")
+//when you put ? after any letter it mean that letter is optional 
+//when you put + after any letter it mean that letter comes many times
+//when you put * it means anything can comes in between that pattern 
+app.get("/ab*cd",(req,res)=>{
+    res.send("successfull....")
 })
 
 app.listen(1100,()=>{
