@@ -1,14 +1,9 @@
 const express = require("express");
-
+const {adminAuth} =  require("./middleware/auth")
 const app = express();
 
 // this is the authorization middleware..
-app.use("/admin",(req,res,next)=>{
-    const token = "xyz";
-    if(token === "xyz") next();
-    else res.send("You have not authorization..")
-    
-})
+app.use("/admin",adminAuth)
 app.get("/admin/getAllData",(req,res)=>{
     res.send("Get all data...");
 })
