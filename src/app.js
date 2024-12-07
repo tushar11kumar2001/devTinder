@@ -43,6 +43,16 @@ app.get("/feed",async(req,res)=>{
         res.send("Something went wrong");
       }
 })
+//find and delete user
+app.delete("/delete",async (req,res)=>{
+    const userEmail = req.body.emailId;
+    try{
+        const result = await UserModel.findOneAndDelete({emailId:userEmail});
+        res.send(result);
+    }catch(err){
+        res.send("Something went wrong");
+      }
+})
 app.use("/",(err,req,res,next)=>{
     if(err){
         res.status(400).send("something went wrong..");
