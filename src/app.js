@@ -43,8 +43,8 @@ app.get("/feed",async(req,res)=>{
         res.send("Something went wrong");
       }
 })
-//find and delete user
-app.delete("/delete",async (req,res)=>{
+//delete user from the database
+app.delete("/user",async (req,res)=>{
     const userEmail = req.body.emailId;
     try{
         const result = await UserModel.findOneAndDelete({emailId:userEmail});
@@ -52,6 +52,16 @@ app.delete("/delete",async (req,res)=>{
     }catch(err){
         res.send("Something went wrong");
       }
+})
+//Update user
+app.patch("/user",async(req,res)=>{
+    const userEmail = req.body.emailId;
+    try{
+        await UserModel.findOneAndUpdate({emailId:userEmail},req.body);     
+        res.send("User update successfully");
+    }catch(err){
+        res.send("Something went wrong");
+    }
 })
 app.use("/",(err,req,res,next)=>{
     if(err){
