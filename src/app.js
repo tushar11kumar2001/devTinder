@@ -7,13 +7,14 @@ app.use(express.json())
 
 app.post("/signup",async(req,res)=>{
     //creating a new instance of the UserModel
-    const user = new UserModel(req.body)
-    try{   
+    const user = new UserModel(req.body);
+    try{
         await user.save();
-        res.send("User added successfully..")
+        res.send("User added successfully..");
     }catch(err){
-        throw new Error(err.message);
+        res.status(404).send(err.message);
     }
+    
   
 });
 //find the user by emailId...
@@ -57,17 +58,17 @@ app.delete("/user",async (req,res)=>{
 app.patch("/user",async(req,res)=>{
     const userEmail = req.body.emailId;
     try{
-        await UserModel.findOneAndUpdate({emailId:userEmail},req.body);     
+        await UserModel.findOneAndUpdate({emailId:userEmail},req.body,{
+            returnDocument:'after',
+            runValidators:true
+
+        });     
         res.send("User update successfully");
     }catch(err){
-        res.send("Something went wrong");
+        res.status(400).send("Update Failed : "+err.message);
     }
 })
-app.use("/",(err,req,res,next)=>{
-    if(err){
-        res.status(400).send("something went wrong..");
-    }
-})
+
 connectDB()
     .then(()=>{
         console.log("Database connection established...");
