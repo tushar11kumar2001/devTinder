@@ -57,7 +57,19 @@ app.delete("/user",async (req,res)=>{
 //Update user
 app.patch("/user",async(req,res)=>{
     const userEmail = req.body.emailId;
+    const ALLOWED_UPDATES = [
+        "emailId",
+        "password",
+        "photoUrl",
+        "about",
+        "skills",
+        "gender"
+    ];
+    const skillsLimit = req.body.skills.length <= 10;
+    const isUpdateAllowed = Object.keys(req.body).every((k)=> ALLOWED_UPDATES.includes(k));
     try{
+        if( !isUpdateAllowed ) throw new Error("You are trying to update restricted fields...")
+        if(!skillsLimit) throw new Error("You are trying to add skills more than ten...")
         await UserModel.findOneAndUpdate({emailId:userEmail},req.body,{
             returnDocument:'after',
             runValidators:true
