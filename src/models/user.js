@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const validator = require("validator");
 const userSchema = new mongoose.Schema({
     firstName:{
         type:String,
@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema({
         require:true,
         unique:true,
         lowercase:true,
-        trim:true
+        trim:true,
+        validate(value){
+            if(!validator.isEmail(value)) throw new Error("invalid email..")
+        }
+        
     },
     password:{
         type:String,
@@ -41,7 +45,10 @@ const userSchema = new mongoose.Schema({
         default:"Hey there ! I am using DEVTINDER"
     },
     skills:{
-        type:[String]
+        type:[String],
+        validate(value){
+          if(value.length > 10)throw new Error("You are typing to add skills more than 10...")
+        }
     }
 },{
     timestamps:true
