@@ -15,14 +15,14 @@ app.post("/signup", async (req, res) => {
 
     //password encryption
     const { firstName, lastName, emailId, password } = req.body;
-    const encryPassword = await bcrypt.hash(password,10)
-    
+    const encryPassword = await bcrypt.hash(password, 10);
+
     //creating a new instance of the UserModel
     const user = new UserModel({
-        firstName,
-        lastName,
-        emailId,
-        password:encryPassword
+      firstName,
+      lastName,
+      emailId,
+      password: encryPassword,
     });
 
     await user.save();
@@ -31,6 +31,27 @@ app.post("/signup", async (req, res) => {
     res.status(404).send(err.message);
   }
 });
+
+//User login
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const user = await UserModel.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("Ivalid credentials");
+    }
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (isValidPassword) {
+      res.send("login successfully....");
+    } else {
+      throw new Error("Ivalid credentials");
+    }
+  } catch (err) {
+    res.send("ERROR : " + err.message);
+  }
+});
+
 //find the user by emailId...
 app.get("/user", async (req, res) => {
   const userEmail = req.body.emailId;
@@ -45,6 +66,7 @@ app.get("/user", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
 //find all users for feed
 app.get("/feed", async (req, res) => {
   try {
@@ -58,6 +80,7 @@ app.get("/feed", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
 //delete user from the database
 app.delete("/user", async (req, res) => {
   const userEmail = req.body.emailId;
@@ -68,6 +91,7 @@ app.delete("/user", async (req, res) => {
     res.send("Something went wrong");
   }
 });
+
 //Update user
 app.patch("/user", async (req, res) => {
   const userEmail = req.body.emailId;
