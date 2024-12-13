@@ -2,12 +2,14 @@ const connectDB = require("./config/database");
 const express = require("express");
 const UserModel = require("./models/userSchema");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 const { validateSignUpData } = require("./utils/validation");
 
 const app = express();
 
 app.use(express.json());
-
+app.use(cookieParser());
 app.post("/signup", async (req, res) => {
   try {
     //validate of data of signup api
@@ -43,13 +45,26 @@ app.post("/login", async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (isValidPassword) {
-      res.send("login successfully....");
+      //Create JWT tokenn
+      const token = await jwt.sign({ _id: user._id }, "tusharkumar@123");
+      //Add the tekon to cookie and send response to the user
+      res.cookie("token", token).send("login successfully....");
     } else {
       throw new Error("Ivalid credentials");
     }
   } catch (err) {
     res.send("ERROR : " + err.message);
   }
+});
+
+//Profile api
+app.get("/profile", async(req, res) => {
+  const {token} = req.cookies;
+
+  //validate the token
+  const decodeMessage = await jwt.verify(token, "tusharkumar@123");
+  const {_id} = decodeMessage;
+  res.send("Logged in user is : "+_id);
 });
 
 //find the user by emailId...
