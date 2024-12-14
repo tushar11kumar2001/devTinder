@@ -39,7 +39,9 @@ authRouter.post("/login", async (req, res) => {
   
       if (isValidPassword) {
         const token = await user.getJWT();
-        res.cookie("token", token).send("login successfully....");
+        res.cookie("token", token,{
+            expires: new Date(Date.now() + 8 * 3600000)
+        }).send("login successfully....");
       } else {
         throw new Error("Ivalid credentials");
       }
@@ -48,4 +50,9 @@ authRouter.post("/login", async (req, res) => {
     }
   });
 
+  authRouter.post("/logout",(req,res)=>{
+    res.cookie("token",null,{
+        expires: new Date(Date.now())
+    }).send("Logout successfully...");
+  })
   module.exports = authRouter;
