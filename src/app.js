@@ -3,6 +3,8 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
+const otpRouter = require("./routes/otp");
+
 
 const app = express();
 
@@ -12,7 +14,7 @@ app.use(cookieParser());
 
 app.use("/",authRouter);
 app.use("/",profileRouter);
-// app.use("/",Router);
+app.use("/",otpRouter);
 
 
 
