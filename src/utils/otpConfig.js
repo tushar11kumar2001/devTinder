@@ -16,7 +16,7 @@ async function sendOtpTorecieverEmail(recieverEmail, text) {
       from: "sherwalji89@gmail.com",
       to: recieverEmail,
       subject: "otp testing ",
-      text: text.toString(),
+      text: text,
     };
     await transporter.sendMail(mailOption);
   } catch (err) {
