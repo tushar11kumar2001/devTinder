@@ -22,6 +22,9 @@ const connectionRequestSchema = mongoose.Schema({
 );
 
 
+//indexing fromUserId and toUserId together and this is called compound indexng;
+connectionRequestSchema.index({fromUserId : 1, toUserId : 1})
+
 //these pre function like middleware which are running before save the data in database and these are the schema method and functions 
 connectionRequestSchema.pre("save",function(next){
     const connectionRequest = this;
