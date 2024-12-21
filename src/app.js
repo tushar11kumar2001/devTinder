@@ -5,6 +5,7 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const otpRouter = require("./routes/otp");
 const connectionRequestRouter = require("./routes/request");
+const userRouter = require("./routes/user");
 
 
 const app = express();
@@ -17,7 +18,7 @@ app.use("/",authRouter);
 app.use("/",profileRouter);
 app.use("/",otpRouter);
 app.use("/",connectionRequestRouter)
-
+app.use("/",userRouter)
 
 connectDB()
   .then(() => {
