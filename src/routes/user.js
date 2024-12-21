@@ -15,7 +15,7 @@ userRouter.get("/user/requests", userAuth, async (req, res) => {
       if (totalConnectionRequests.length == 0) {
         throw new Error("You have not any connection request..");
       }
-      console.log("total connection request : ", totalConnectionRequests);
+    //   console.log("total connection request : ", totalConnectionRequests);
       res.json({
         message: "Total request ",
         data: totalConnectionRequests,
