@@ -62,6 +62,7 @@ connectionRequestRouter.post(
   userAuth,
   async (req, res) => {
     //check status : accepted or rejected
+    //check loggedInUserId with fromUserId
     //find request with sender id in connection collection
     try {
       const { status } = req.params;
